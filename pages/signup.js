@@ -47,11 +47,11 @@ export default function Signup() {
         <form onSubmit={handleSignup} className="form">
           <div>
             <label>Full Name</label>
-            <input value={name} onChange={(e) => setName(e.target.value)} placeholder="John Doe" required />
+            <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="John Doe" required />
           </div>
           <div>
             <label>Phone Number</label>
-            <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+1 (555) 000-0000" required />
+            <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+1 (555) 000-0000" required />
           </div>
           <div>
             <label>Email</label>
