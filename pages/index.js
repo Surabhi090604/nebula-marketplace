@@ -11,11 +11,11 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Fetch products on mount and when router is ready
+    // Fetch products on mount, when router is ready, and when query params change
     if (router.isReady) {
       fetchProducts()
     }
-  }, [router.isReady])
+  }, [router.isReady, router.query])
 
   useEffect(() => {
     // Also refresh when window gains focus (e.g., after adding a product)
