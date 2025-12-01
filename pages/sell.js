@@ -73,12 +73,16 @@ export default function Sell({ session }) {
 
     try {
       // Push to Firebase Realtime Database
+      console.log('💾 Saving product:', product)
       const newRef = await firebase.database.ref('products').push(product)
+      console.log('✅ Product saved with key:', newRef.key)
 
       setLoading(false)
       alert('Product listed successfully!')
-      router.push('/')
+      // Add timestamp to force page refresh
+      router.push(`/?t=${Date.now()}`)
     } catch (err) {
+      console.error('❌ Error creating product:', err)
       setError('Error creating product: ' + err.message)
       setLoading(false)
     }

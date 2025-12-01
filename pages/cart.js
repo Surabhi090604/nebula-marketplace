@@ -71,7 +71,7 @@ export default function Cart({ session }) {
 
   return (
     <div className="container">
-      <h1 style={{ marginBottom: '2rem', color: 'white' }}>🛒 Shopping Cart</h1>
+      <h1 style={{ marginBottom: '2rem', color: 'white', fontSize: '2rem' }}>🛒 Shopping Cart</h1>
 
       {orderPlaced ? (
         <div style={{

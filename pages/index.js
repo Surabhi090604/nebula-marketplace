@@ -1,29 +1,54 @@
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import firebase from '../lib/firebaseClient'
 import ProductCard from '../components/ProductCard'
 import ProductModal from '../components/ProductModal'
 
 export default function Home() {
+  const router = useRouter()
   const [products, setProducts] = useState([])
   const [selected, setSelected] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchProducts()
+    // Fetch products on mount and when router is ready
+    if (router.isReady) {
+      fetchProducts()
+    }
+  }, [router.isReady])
+
+  useEffect(() => {
+    // Also refresh when window gains focus (e.g., after adding a product)
+    const handleFocus = () => {
+      fetchProducts()
+    }
+
+    window.addEventListener('focus', handleFocus)
+
+    return () => {
+      window.removeEventListener('focus', handleFocus)
+    }
   }, [])
 
   async function fetchProducts() {
+    console.log('🔄 Fetching products...')
     setLoading(true)
     try {
       const snapshot = await firebase.database.ref('products').get()
       const data = snapshot.val() || []
 
+      console.log('📦 Raw data from Firebase:', data)
+      console.log('📦 Data type:', Array.isArray(data) ? 'array' : typeof data)
+
       // Convert object to array if needed
       const productsArray = Array.isArray(data) ? data : Object.values(data || {})
 
+      console.log('📦 Products array:', productsArray)
+      console.log('📦 Products count:', productsArray.length)
+
       setProducts(productsArray)
     } catch (error) {
-      console.error('Error fetching products:', error)
+      console.error('❌ Error fetching products:', error)
     }
     setLoading(false)
   }
